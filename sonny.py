@@ -18,10 +18,11 @@ def Sonny(maze):
     Front,     Left,       Right,      Back
     -Row,      -Column,    +Column,    +Row
                     Values
-    1           2           3           4
+    ^           <           >           v
     '''
-    eliminado = []
+    #Find the solution
     while((completed == False) and (len(stack) != 0)):
+        #Print the maze in "real time" and the path followed by the agent
         os.system('cls')
         print("MAZE")
         printMaze(maze)
@@ -29,55 +30,71 @@ def Sonny(maze):
         print(stack)
         time.sleep(0.5)
         #Movementes available?
-        if (maze[stack[-1][0]][stack[-1][1]] < 4):
+        if (maze[stack[-1][0]][stack[-1][1]] != 'v'):
             #Available to move to front
+            #The current box is new
             if (maze[stack[-1][0]][stack[-1][1]] == 0):
                 try:
+                    #The box above is free
                     if (maze[stack[-1][0]-1][stack[-1][1]] == 0):
                         nextPosition = [stack[-1][0]-1, stack[-1][1]]
                         canMove = True
+                    #Update information box
+                    maze[stack[-1][0]][stack[-1][1]] = '^'
                     if (maze[stack[-1][0]-1][stack[-1][1]] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to left
-            elif (maze[stack[-1][0]][stack[-1][1]] == 1):
+            #The current box has tried to move up
+            elif (maze[stack[-1][0]][stack[-1][1]] == '^'):
                 try:
+                    #The box on the left is free
                     if (maze[stack[-1][0]][stack[-1][1]-1] == 0):
                         nextPosition = [stack[-1][0], stack[-1][1]-1]
                         canMove = True
+                    #Update information box
+                    maze[stack[-1][0]][stack[-1][1]] = '<'
                     if (maze[stack[-1][0]][stack[-1][1]-1] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to right
-            elif (maze[stack[-1][0]][stack[-1][1]] == 2):
+            #The current box has tried to move to the left
+            elif (maze[stack[-1][0]][stack[-1][1]] == '<'):
                 try:
+                    #The box on the right is free
                     if (maze[stack[-1][0]][stack[-1][1]+1] == 0):
                         nextPosition = [stack[-1][0], stack[-1][1]+1]
                         canMove = True
+                    #Update information box
+                    maze[stack[-1][0]][stack[-1][1]] = '>'
                     if (maze[stack[-1][0]][stack[-1][1]+1] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to back
-            elif (maze[stack[-1][0]][stack[-1][1]] == 3):
+            #The current box has tried to move to the right
+            elif (maze[stack[-1][0]][stack[-1][1]] == '>'):
                 try:
+                    #The box below is free
                     if (maze[stack[-1][0]+1][stack[-1][1]] == 0):
                         nextPosition = [stack[-1][0]+1, stack[-1][1]]
                         canMove = True
+                    #Update information box
+                    maze[stack[-1][0]][stack[-1][1]] = 'v'
                     if (maze[stack[-1][0]+1][stack[-1][1]] == 5):
                         completed = True
                 except:
                     canMove = False
-            #Update information box
-            maze[stack[-1][0]][stack[-1][1]] += 1
-            #Move to next box
+            
+            #Move to the next box
             if (canMove):
                 stack.append(nextPosition)
                 canMove = False
+        #The current box has tried to move in all direction
         else:
-            #maze[stack[-1][0]][stack[-1][1]] = 8
+            maze[stack[-1][0]][stack[-1][1]] = '*'
             stack.pop()
     return row, column, completed, stack
 
