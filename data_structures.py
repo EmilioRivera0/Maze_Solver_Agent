@@ -12,14 +12,12 @@ PATH_STACK = []
 def load_maze():
     """Loads the maze contained by maze.json, initialize metadata values and makes a serialization process 
     to change the 's' and 'i' values to 5 and 4 respectively.
-    Returns: MAZE, X_max, Y_max, start_point"""
+    Returns: MAZE, start_point"""
     # maze extraction from json
     file = open("maze.json")
     temp_maze = load(file)["maze"]
     # declare and initialize metadata variables
     start_point = []
-    X_max = len(temp_maze[0])
-    Y_max = len(temp_maze)
     # serialization of loaded maze
     for row_iterator in range(len(temp_maze)):
         for column_iterator in range(len(temp_maze[row_iterator])):
@@ -31,7 +29,7 @@ def load_maze():
                 temp_maze[row_iterator][column_iterator] = 0
                 # initialize the starting point
                 start_point = [row_iterator,column_iterator]
-    return temp_maze, X_max, Y_max, start_point
+    return temp_maze, start_point
 
 def push_path_stack(coordinates):
     """Push (x,y) coordinates to the PATH_STACK"""
@@ -40,3 +38,7 @@ def push_path_stack(coordinates):
 def pop_path_stack():
     """Pop (x,y) coordinates from the PATH_STACK"""
     return PATH_STACK.pop(0)
+
+def get_stack_top():
+    """Return the top element of the PATH_STACK"""
+    return PATH_STACK[-1]

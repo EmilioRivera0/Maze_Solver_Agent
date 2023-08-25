@@ -1,8 +1,15 @@
-import time, os
+# necessary imports -------->
+import time
+import os
+from data_structures import PATH_STACK, push_path_stack, pop_path_stack, get_stack_top
 
-def Sonny(maze):
+# functions -------->
+def Sonny(maze, start_point):
+    # local variables
     completed = False
     canMove = False
+    
+    #--------------------------------------------->
     stack = []
     #Identify start point
     row = 0
@@ -13,6 +20,8 @@ def Sonny(maze):
             stack.append([row, column])
             break
         row += 1
+    #--------------------------------------------->
+
     '''
                     Directions
     Front,     Left,       Right,      Back
@@ -96,26 +105,13 @@ def Sonny(maze):
         else:
             maze[stack[-1][0]][stack[-1][1]] = '*'
             stack.pop()
-    return row, column, completed, stack
+    return completed, stack
 
 def printMaze(maze):
     for i in maze:
         for j in i:
             print(str(j) + '\t', end="")
         print()
-
-#main
-# maze = [
-#     [-1, -1,  5, -1, -1, -1],
-#     [-1,  0,  0,   0,  0, -1],
-#     [-1, -1, -1,  -1,  0, -1],
-#     [-1,  0,  0,   0,  0, -1],
-#     [-1,  0, -1,  -1,  -1, -1],
-#     [-1,  0,  0,   0,  0,  -1],
-#     [-1,  0,  0,   -1, 0, 'i'],
-#     [-1, -1, -1,  -1,  -1, -1]
-# ]
-
 maze = [
     [-1,  5, -1, -1, -1, -1, -1, -1, -1],
     [-1,  0,  0,  0, -1,  0, -1, -1, -1],
@@ -128,7 +124,7 @@ maze = [
     [-1, -1, -1, 'i',-1, -1, -1, -1, -1]
 ]
 
-row, column, completed, stack = Sonny(maze)
+completed, stack = Sonny(maze, [])
 if (completed):
     print("\nCompleted")
     print("Final maze")
