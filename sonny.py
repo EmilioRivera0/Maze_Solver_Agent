@@ -5,23 +5,6 @@ from data_structures import PATH_STACK, push_path_stack, pop_path_stack, get_sta
 
 # functions -------->
 def Sonny(maze, start_point):
-    # local variables
-    completed = False
-    canMove = False
-    
-    #--------------------------------------------->
-    stack = []
-    #Identify start point
-    row = 0
-    for i in maze:
-        if 'i' in i:
-            column = i.index('i')
-            maze[row][column] = 0
-            stack.append([row, column])
-            break
-        row += 1
-    #--------------------------------------------->
-
     '''
                     Directions
     Front,     Left,       Right,      Back
@@ -29,83 +12,93 @@ def Sonny(maze, start_point):
                     Values
     ^           <           >           v
     '''
+    # local variables
+    completed = False
+    canMove = False
+    current_position = []
+    # initialize PATH_STACK with starting point
+    push_path_stack(start_point)
+    print(PATH_STACK)
     #Find the solution
-    while((completed == False) and (len(stack) != 0)):
+    while((completed == False) and (len(PATH_STACK) != 0)):
         #Print the maze in "real time" and the path followed by the agent
         os.system('cls')
         print("MAZE")
         printMaze(maze)
         print("Stack")
-        print(stack)
+        print(PATH_STACK)
         time.sleep(0.5)
+        # initialize current position
+        current_position = get_stack_top()
+        print(current_position)
         #Movementes available?
-        if (maze[stack[-1][0]][stack[-1][1]] != 'v'):
+        if (maze[current_position[0]][current_position[1]] != 'v'):
             #Available to move to front
             #The current box is new
-            if (maze[stack[-1][0]][stack[-1][1]] == 0):
+            if (maze[current_position[0]][current_position[1]] == 0):
                 try:
                     #The box above is free
-                    if (maze[stack[-1][0]-1][stack[-1][1]] == 0):
-                        nextPosition = [stack[-1][0]-1, stack[-1][1]]
+                    if (maze[current_position[0]-1][current_position[1]] == 0):
+                        nextPosition = [current_position[0]-1, current_position[1]]
                         canMove = True
                     #Update information box
-                    maze[stack[-1][0]][stack[-1][1]] = '^'
-                    if (maze[stack[-1][0]-1][stack[-1][1]] == 5):
+                    maze[current_position[0]][current_position[1]] = '^'
+                    if (maze[current_position[0]-1][current_position[1]] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to left
             #The current box has tried to move up
-            elif (maze[stack[-1][0]][stack[-1][1]] == '^'):
+            elif (maze[current_position[0]][current_position[1]] == '^'):
                 try:
                     #The box on the left is free
-                    if (maze[stack[-1][0]][stack[-1][1]-1] == 0):
-                        nextPosition = [stack[-1][0], stack[-1][1]-1]
+                    if (maze[current_position[0]][current_position[1]-1] == 0):
+                        nextPosition = [current_position[0], current_position[1]-1]
                         canMove = True
                     #Update information box
-                    maze[stack[-1][0]][stack[-1][1]] = '<'
-                    if (maze[stack[-1][0]][stack[-1][1]-1] == 5):
+                    maze[current_position[0]][current_position[1]] = '<'
+                    if (maze[current_position[0]][current_position[1]-1] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to right
             #The current box has tried to move to the left
-            elif (maze[stack[-1][0]][stack[-1][1]] == '<'):
+            elif (maze[current_position[0]][current_position[1]] == '<'):
                 try:
                     #The box on the right is free
-                    if (maze[stack[-1][0]][stack[-1][1]+1] == 0):
-                        nextPosition = [stack[-1][0], stack[-1][1]+1]
+                    if (maze[current_position[0]][current_position[1]+1] == 0):
+                        nextPosition = [current_position[0], current_position[1]+1]
                         canMove = True
                     #Update information box
-                    maze[stack[-1][0]][stack[-1][1]] = '>'
-                    if (maze[stack[-1][0]][stack[-1][1]+1] == 5):
+                    maze[current_position[0]][current_position[1]] = '>'
+                    if (maze[current_position[0]][current_position[1]+1] == 5):
                         completed = True
                 except:
                     canMove = False
             #Available to move to back
             #The current box has tried to move to the right
-            elif (maze[stack[-1][0]][stack[-1][1]] == '>'):
+            elif (maze[current_position[0]][current_position[1]] == '>'):
                 try:
                     #The box below is free
-                    if (maze[stack[-1][0]+1][stack[-1][1]] == 0):
-                        nextPosition = [stack[-1][0]+1, stack[-1][1]]
+                    if (maze[current_position[0]+1][current_position[1]] == 0):
+                        nextPosition = [current_position[0]+1, current_position[1]]
                         canMove = True
                     #Update information box
-                    maze[stack[-1][0]][stack[-1][1]] = 'v'
-                    if (maze[stack[-1][0]+1][stack[-1][1]] == 5):
+                    maze[current_position[0]][current_position[1]] = 'v'
+                    if (maze[current_position[0]+1][current_position[1]] == 5):
                         completed = True
                 except:
                     canMove = False
             
             #Move to the next box
             if (canMove):
-                stack.append(nextPosition)
+                push_path_stack(nextPosition)
                 canMove = False
         #The current box has tried to move in all direction
         else:
-            maze[stack[-1][0]][stack[-1][1]] = '*'
-            stack.pop()
-    return completed, stack
+            maze[current_position[0]][current_position[1]] = '*'
+            pop_path_stack()
+    return completed
 
 def printMaze(maze):
     for i in maze:
@@ -121,15 +114,15 @@ maze = [
     [-1, -1, -1,  0, -1, -1, -1,  0, -1],
     [-1,  0,  0,  0,  0, -1,  0,  0, -1],
     [-1,  0,  0,  0,  0,  0,  0,  0, -1],
-    [-1, -1, -1, 'i',-1, -1, -1, -1, -1]
+    [-1, -1, -1,  0, -1, -1, -1, -1, -1]
 ]
 
-completed, stack = Sonny(maze, [])
+completed = Sonny(maze, [8,3])
 if (completed):
     print("\nCompleted")
     print("Final maze")
     printMaze(maze)
     print("Final stack")
-    print(stack)
+    print(PATH_STACK)
 else:
     print("\nThere is no solution")

@@ -2,8 +2,6 @@
 from json import load
 
 # data structure declaration -------->
-# matrix that will store the maze and the values for each coordinate
-MAZE = []
 # stack that will store the covered ground by the intelligent agent,
 # givin him the ability to return to previous steps
 PATH_STACK = []
@@ -41,4 +39,4 @@ def pop_path_stack():
 
 def get_stack_top():
     """Return the top element of the PATH_STACK"""
-    return PATH_STACK[-1]
+    return PATH_STACK[0]
