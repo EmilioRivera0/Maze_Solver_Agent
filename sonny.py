@@ -1,7 +1,7 @@
 # necessary imports -------->
 import time
 import os
-from data_structures import PATH_STACK, push_path_stack, pop_path_stack, get_stack_top
+from data_structures import *
 
 # functions -------->
 def Sonny(maze, start_point):
@@ -105,23 +105,15 @@ def printMaze(maze):
         for j in i:
             print(str(j) + '\t', end="")
         print()
-maze = [
-    [-1,  5, -1, -1, -1, -1, -1, -1, -1],
-    [-1,  0,  0,  0, -1,  0, -1, -1, -1],
-    [-1,  0, -1, -1, -1,  0, -1,  0, -1],
-    [-1,  0,  0,  0,  0,  0,  0,  0, -1],
-    [-1,  0, -1, -1, -1,  0, -1,  0, -1],
-    [-1, -1, -1,  0, -1, -1, -1,  0, -1],
-    [-1,  0,  0,  0,  0, -1,  0,  0, -1],
-    [-1,  0,  0,  0,  0,  0,  0,  0, -1],
-    [-1, -1, -1,  0, -1, -1, -1, -1, -1]
-]
 
-completed = Sonny(maze, [8,3])
+
+# program execution -------->
+MAZE, start_point = load_maze()
+completed = Sonny(MAZE, start_point)
 if (completed):
     print("\nCompleted")
     print("Final maze")
-    printMaze(maze)
+    printMaze(MAZE)
     print("Final stack")
     print(PATH_STACK)
 else:
