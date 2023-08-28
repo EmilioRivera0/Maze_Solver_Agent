@@ -27,7 +27,7 @@ def Sonny(maze, start_point):
         printMaze(maze)
         print("Stack")
         print(PATH_STACK)
-        time.sleep(0.5)
+        time.sleep(0.05)
         # initialize current position
         current_position = get_stack_top()
         print(current_position)
