@@ -1,6 +1,5 @@
 # necessary imports -------->
 import time
-import os
 import matplotlib.pyplot as plt
 from data_structures import *
 
@@ -22,8 +21,11 @@ def Sonny(maze, start_point):
     #Find the solution
     while((completed == False) and (len(PATH_STACK) != 0)):
         #Render the maze in "real time" and the path followed by the agent
+        os.system("clear")
+        print('Path Stack:\n', PATH_STACK)
         plt.imshow(maze, cmap='jet',interpolation='nearest')
-        plt.pause(0.01)
+        plt.pause(0.001)
+        plt.clf()
         # initialize current position
         current_position = get_stack_top()
         #Movementes available?
@@ -38,8 +40,9 @@ def Sonny(maze, start_point):
                         canMove = True
                     #Update information box
                     maze[current_position[0]][current_position[1]] = 1
-                    if (maze[current_position[0]-1][current_position[1]] == 5):
+                    if (maze[current_position[0]-1][current_position[1]] == 6):
                         completed = True
+                        print("Completed Front")
                 except:
                     canMove = False
             #Available to move to left
@@ -52,8 +55,9 @@ def Sonny(maze, start_point):
                         canMove = True
                     #Update information box
                     maze[current_position[0]][current_position[1]] = 2
-                    if (maze[current_position[0]][current_position[1]-1] == 5):
+                    if (maze[current_position[0]][current_position[1]-1] == 6):
                         completed = True
+                        print("Completed Left")
                 except:
                     canMove = False
             #Available to move to right
@@ -66,8 +70,9 @@ def Sonny(maze, start_point):
                         canMove = True
                     #Update information box
                     maze[current_position[0]][current_position[1]] = 3
-                    if (maze[current_position[0]][current_position[1]+1] == 5):
+                    if (maze[current_position[0]][current_position[1]+1] == 6):
                         completed = True
+                        print("Completed Right")
                 except:
                     canMove = False
             #Available to move to back
@@ -80,8 +85,9 @@ def Sonny(maze, start_point):
                         canMove = True
                     #Update information box
                     maze[current_position[0]][current_position[1]] = 4
-                    if (maze[current_position[0]+1][current_position[1]] == 5):
+                    if (maze[current_position[0]+1][current_position[1]] == 6):
                         completed = True
+                        print("Completed Below")
                 except:
                     canMove = False
             
@@ -94,20 +100,3 @@ def Sonny(maze, start_point):
             maze[current_position[0]][current_position[1]] = 5
             pop_path_stack()
     return completed
-
-def printMaze(maze):
-    for i in maze:
-        for j in i:
-            print(str(j) + '\t', end="")
-        print()
-
-
-# program execution -------->
-MAZE, start_point = load_maze()
-completed = Sonny(MAZE, start_point)
-if (completed):
-    print("\nCompleted")
-    #print("Final stack")
-    #print(PATH_STACK)
-else:
-    print("\nThere is no solution")

@@ -7,8 +7,8 @@ Intelligent Agent called Sonny capable of solving mazes represented in a matrice
 - 2 represents that Sonny already checked the upward and left coordinates
 - 3 represents that Sonny already checked the upward, left and right coordinates
 - 4 represents that Sonny already checked the upward, left, right and inferior coordinates
-- 5/'s' represents the exit of the maze
-- '*' represents that all the coordinate's neighboring where checked (will never be checked again)
+- 5 represents that all the coordinate's neighboring where checked (will never be checked again)
+- 6/'s' represents the exit of the maze
 - 'i' represents the starting point of the maze
 - Each coordinate occupies one element of the matrix
 - The matrix must be square (same length for x and y dimensions)

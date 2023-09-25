@@ -1,5 +1,6 @@
 # necessary imports -------->
 from json import load
+import os
 
 # data structure declaration -------->
 # stack that will store the covered ground by the intelligent agent,
@@ -11,8 +12,21 @@ def load_maze():
     """Loads the maze contained by maze.json, initialize metadata values and makes a serialization process 
     to change the 's' and 'i' values to 5 and 4 respectively.
     Returns: MAZE, start_point"""
+
+    # ask user to choose the maze for Sonny to solve
+    name = ""
+    while name == "":
+        os.system("clear")
+        op = int(input("\tMenu\n1. Maze 1\n2. Maze 2\nOp> "))
+        if op == 1:
+            name = "1.json"
+        elif op == 2:
+            name = "2.json"
+        else:
+            print("Incorrect Input")
+
     # maze extraction from json
-    file = open("maze.json")
+    file = open(name)
     temp_maze = load(file)["maze"]
     # declare and initialize metadata variables
     start_point = []
@@ -21,7 +35,7 @@ def load_maze():
         for column_iterator in range(len(temp_maze[row_iterator])):
             # s = exit
             if temp_maze[row_iterator][column_iterator] == 's':
-                temp_maze[row_iterator][column_iterator] = 5
+                temp_maze[row_iterator][column_iterator] = 6
             # i = starting point
             elif temp_maze[row_iterator][column_iterator] == 'i':
                 temp_maze[row_iterator][column_iterator] = 0
