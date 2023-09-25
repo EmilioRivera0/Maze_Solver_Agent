@@ -19,9 +19,9 @@ def load_maze():
         os.system("clear")
         op = int(input("\tMenu\n1. Maze 1\n2. Maze 2\nOp> "))
         if op == 1:
-            name = "1.json"
+            name = "maze/1.json"
         elif op == 2:
-            name = "2.json"
+            name = "maze/2.json"
         else:
             print("Incorrect Input")
 
